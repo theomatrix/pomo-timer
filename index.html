@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pomodoro Focus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+
+    <div class="container">
+        <header>
+            <h1>Focus Timer</h1>
+            <!-- Quote Container -->
+            <div id="quote-display" class="quote-display">
+                "Productivity is being able to do things that you were never able to do before."
+            </div>
+
+            <div class="mode-toggles">
+                <button id="focus-btn" class="mode-btn active">Focus</button>
+                <button id="break-btn" class="mode-btn">Break</button>
+            </div>
+
+            <!-- Laps Display -->
+            <div class="laps-display">
+                <div class="lap-item">
+                    <span class="lap-label">Focus Laps</span>
+                    <span id="focus-laps" class="lap-count">0</span>
+                </div>
+                <div class="lap-item">
+                    <span class="lap-label">Break Laps</span>
+                    <span id="break-laps" class="lap-count">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="timer-display">
+            <div class="circle-progress">
+                <svg width="300" height="300" viewBox="0 0 300 300">
+                    <circle class="bg-ring" cx="150" cy="150" r="140"></circle>
+                    <circle class="progress-ring" cx="150" cy="150" r="140"></circle>
+                </svg>
+                <div class="time-text" id="time-display">25:00</div>
+            </div>
+        </main>
+
+        <section class="controls">
+            <button id="start-pause" class="control-btn primary">
+                <span class="icon">▶</span> Start
+            </button>
+            <button id="skip" class="control-btn secondary skip-btn" title="Skip Session">
+                <span class="icon">⏭</span>
+            </button>
+            <button id="reset" class="control-btn secondary" title="Reset Timer">
+                <span class="icon">↺</span>
+            </button>
+        </section>
+
+        <section class="settings">
+            <div class="setting-group">
+                <label for="focus-time">Focus (min)</label>
+                <input type="number" id="focus-time" value="25" min="1" max="60">
+            </div>
+            <div class="setting-group">
+                <label for="break-time">Break (min)</label>
+                <input type="number" id="break-time" value="5" min="1" max="60">
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
