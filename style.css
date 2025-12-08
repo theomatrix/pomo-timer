@@ -63,6 +63,13 @@ body {
     /* Hardware acceleration */
 }
 
+@media (max-width: 480px) {
+    .background-animation::before {
+        display: none;
+        /* Hide complex wormhole on mobile for performance */
+    }
+}
+
 /* Dust particles streaming past */
 .background-animation::after {
     display: none;
@@ -426,7 +433,7 @@ body.break-mode .progress-ring {
 @media (max-width: 1024px) and (min-width: 769px) {
     .container {
         padding: 2.5rem;
-        max-width: 420px;
+        max-width: 500px;
     }
 
     .time-text {
@@ -498,14 +505,18 @@ body.break-mode .progress-ring {
 @media (max-width: 480px) {
     .container {
         padding: 1rem;
-        width: 100%;
+        width: 95%;
+        /* Increase width usage */
         max-width: 100%;
-        gap: 1.2rem;
-        border-radius: 0;
-        border: none;
-        backdrop-filter: blur(10px);
-        /* Reduce blur for performance */
-        -webkit-backdrop-filter: blur(10px);
+        gap: 1rem;
+        border-radius: 20px;
+        backdrop-filter: none;
+        /* DISABLE BLUR */
+        -webkit-backdrop-filter: none;
+        background: rgba(20, 20, 20, 0.85);
+        /* Solid fallback */
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: none;
     }
 
     .time-text {
@@ -545,9 +556,10 @@ body.break-mode .progress-ring {
     }
 
     .timer-display {
-        max-width: 320px;
-        /* Allow bigger size */
-        width: 85%;
+        max-width: none;
+        width: 90%;
+        /* Fluid width */
+        margin: 0 auto;
     }
 
     .controls {
@@ -581,8 +593,9 @@ body.break-mode .progress-ring {
     }
 
     .setting-group input {
-        width: 65px;
-        padding: 0.4rem;
+        width: 60px;
+        font-size: 16px;
+        /* Prevent zoom on iOS */
     }
 }
 
@@ -591,6 +604,7 @@ body.break-mode .progress-ring {
     .container {
         padding: 0.5rem;
         width: 100%;
+        border-radius: 0;
     }
 
     .time-text {
@@ -598,7 +612,8 @@ body.break-mode .progress-ring {
     }
 
     .timer-display {
-        max-width: 280px;
+        width: 100%;
+        max-width: 300px;
     }
 
     header h1 {
