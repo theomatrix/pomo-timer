@@ -19,7 +19,7 @@ class PomodoroTimer {
             "Don't count the days, make the days count."
         ];
 
-        
+        // DOM Elements
         this.timeDisplay = document.getElementById('time-display');
         this.startPauseBtn = document.getElementById('start-pause');
         this.resetBtn = document.getElementById('reset');
@@ -33,6 +33,7 @@ class PomodoroTimer {
         this.focusLapsDisplay = document.getElementById('focus-laps');
         this.breakLapsDisplay = document.getElementById('break-laps');
 
+        // Ring Circumference for animation
         this.circumference = 2 * Math.PI * 140; // r=140
         this.progressRing.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
 
@@ -42,8 +43,8 @@ class PomodoroTimer {
         this.skipBtn.addEventListener('click', () => this.skipTimer());
         this.focusBtn.addEventListener('click', () => this.switchMode('focus'));
         this.breakBtn.addEventListener('click', () => this.switchMode('break'));
-        this.focusInput.addEventListener('change', () => this.updateSettings());
-        this.breakInput.addEventListener('change', () => this.updateSettings());
+        this.focusInput.addEventListener('input', () => this.updateSettings());
+        this.breakInput.addEventListener('input', () => this.updateSettings());
 
         this.updateDisplay();
         this.updateQuote();
@@ -84,6 +85,7 @@ class PomodoroTimer {
         clearInterval(this.timerId);
         this.timerId = null;
         this.startPauseBtn.innerHTML = '<span class="icon">▶</span> Start';
+    }
 
     resetTimer() {
         this.pauseTimer();
@@ -92,16 +94,16 @@ class PomodoroTimer {
         this.totalTime = this.timeLeft;
         this.updateDisplay();
         this.updateProgress();
-        this.lockInputs(false); // Unlock on reset
+        this.lockInputs(false); 
     }
 
     skipTimer() {
-        // Skip current session
         this.pauseTimer();
         this.timerFinished();
     }
 
     switchMode(newMode) {
+    
         this.mode = newMode;
         document.body.classList.toggle('break-mode', newMode === 'break');
 
@@ -119,7 +121,15 @@ class PomodoroTimer {
 
     updateSettings() {
         if (!this.isRunning) {
-            const minutes = this.mode === 'focus' ? this.focusInput.value : this.breakInput.value;
+            let minutes = this.mode === 'focus' ? parseInt(this.focusInput.value) : parseInt(this.breakInput.value);
+
+           
+            if (isNaN(minutes) || minutes < 1) minutes = 1;
+            if (minutes > 60) minutes = 60;
+
+            if (this.mode === 'focus' && this.focusInput.value != minutes) this.focusInput.value = minutes;
+            if (this.mode === 'break' && this.breakInput.value != minutes) this.breakInput.value = minutes;
+
             this.timeLeft = minutes * 60;
             this.totalTime = this.timeLeft;
             this.updateDisplay();
@@ -154,17 +164,13 @@ class PomodoroTimer {
     timerFinished() {
         this.pauseTimer();
 
-        // Play Sound
         const audio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
         audio.play().catch(e => console.log('Audio autoplay blocked', e));
 
         if (this.mode === 'focus') {
-            // Focus finished
             this.focusLaps++;
             this.focusLapsDisplay.textContent = this.focusLaps;
             this.updateQuote();
-
-            // Speak "Break Time"
             this.speak("Break time");
 
             // Auto-start break
@@ -172,7 +178,6 @@ class PomodoroTimer {
             this.startTimer();
 
         } else {
-            
             this.breakLaps++;
             this.breakLapsDisplay.textContent = this.breakLaps;
 
