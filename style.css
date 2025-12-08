@@ -57,6 +57,10 @@ body {
     border-radius: 50%;
     animation: rotateWormhole 20s linear infinite;
     opacity: 0.6;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    /* Hardware acceleration */
 }
 
 /* Dust particles streaming past */
@@ -91,6 +95,9 @@ body {
     transform: translate(-50%, -50%);
     pointer-events: none;
     border-radius: 50%;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 /* Dense field of small stars */
@@ -490,9 +497,15 @@ body.break-mode .progress-ring {
 /* Mobile Responsive */
 @media (max-width: 480px) {
     .container {
-        padding: 1.5rem;
-        width: 95%;
+        padding: 1rem;
+        width: 100%;
+        max-width: 100%;
         gap: 1.2rem;
+        border-radius: 0;
+        border: none;
+        backdrop-filter: blur(10px);
+        /* Reduce blur for performance */
+        -webkit-backdrop-filter: blur(10px);
     }
 
     .time-text {
@@ -532,7 +545,9 @@ body.break-mode .progress-ring {
     }
 
     .timer-display {
-        max-width: 260px;
+        max-width: 320px;
+        /* Allow bigger size */
+        width: 85%;
     }
 
     .controls {
@@ -574,8 +589,8 @@ body.break-mode .progress-ring {
 /* Extra Small Devices */
 @media (max-width: 360px) {
     .container {
-        padding: 1rem;
-        width: 98%;
+        padding: 0.5rem;
+        width: 100%;
     }
 
     .time-text {
@@ -583,7 +598,7 @@ body.break-mode .progress-ring {
     }
 
     .timer-display {
-        max-width: 220px;
+        max-width: 280px;
     }
 
     header h1 {
