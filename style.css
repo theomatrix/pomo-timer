@@ -28,50 +28,149 @@ body {
     position: relative;
 }
 
-/* Background Animation */
+/* Cosmic Space Background - Wormhole Theme */
 .background-animation {
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle at center, #1f1f1f 0%, #000000 70%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
     z-index: -1;
-    animation: pulseBg 10s ease-in-out infinite alternate;
+    overflow: hidden;
+    perspective: 1000px;
+    /* Enable 3D perspective for the tunnel effect */
 }
 
-@keyframes pulseBg {
-    0% {
-        transform: scale(1);
-    }
-
-    100% {
-        transform: scale(1.1);
-    }
-}
-
+/* Wormhole Tunnel / Nebula Core */
 .background-animation::before {
     content: '';
     position: absolute;
-    top: 20%;
-    left: 20%;
-    width: 60%;
-    height: 60%;
-    background: radial-gradient(circle, rgba(255, 107, 107, 0.05), transparent 60%);
-    animation: drift 15s infinite linear;
+    top: 50%;
+    left: 50%;
+    width: 200vw;
+    height: 200vw;
+    transform: translate(-50%, -50%);
+    background:
+        radial-gradient(circle at center, transparent 0%, rgba(76, 29, 149, 0.1) 40%, rgba(15, 5, 20, 1) 100%),
+        conic-gradient(from 0deg, transparent 0deg, rgba(138, 43, 226, 0.3) 90deg, transparent 180deg, rgba(59, 130, 246, 0.3) 270deg, transparent 360deg);
+    border-radius: 50%;
+    animation: rotateWormhole 20s linear infinite;
+    opacity: 0.6;
 }
 
-@keyframes drift {
+/* Dust particles streaming past */
+.background-animation::after {
+    display: none;
+    /* Removing old dust to focus on stars */
+}
+
+@keyframes rotateWormhole {
     0% {
-        transform: rotate(0deg) translate(20px);
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
     }
 
     50% {
-        transform: rotate(180deg) translate(-20px);
+        transform: translate(-50%, -50%) rotate(180deg) scale(1.2);
     }
 
     100% {
-        transform: rotate(360deg) translate(20px);
+        transform: translate(-50%, -50%) rotate(360deg) scale(1);
+    }
+}
+
+/* Animated Stars Layers - High Density for Warp Effect */
+.stars,
+.stars2,
+.stars3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200vw;
+    height: 200vw;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+/* Dense field of small stars */
+.stars {
+    background-image:
+        radial-gradient(2px 2px at 10% 10%, white, transparent),
+        radial-gradient(2px 2px at 20% 20%, white, transparent),
+        radial-gradient(1px 1px at 30% 50%, white, transparent),
+        radial-gradient(2px 2px at 40% 80%, white, transparent),
+        radial-gradient(1px 1px at 50% 10%, white, transparent),
+        radial-gradient(2px 2px at 60% 30%, white, transparent),
+        radial-gradient(2px 2px at 70% 90%, white, transparent),
+        radial-gradient(1px 1px at 80% 50%, white, transparent),
+        radial-gradient(2px 2px at 90% 20%, white, transparent),
+        radial-gradient(1px 1px at 15% 75%, white, transparent),
+        radial-gradient(2px 2px at 35% 15%, white, transparent),
+        radial-gradient(2px 2px at 55% 65%, white, transparent),
+        radial-gradient(1px 1px at 75% 35%, white, transparent),
+        radial-gradient(2px 2px at 95% 85%, white, transparent);
+    background-size: 400px 400px;
+    /* Small repeat pattern */
+    animation: warpSpeed 3s linear infinite;
+    opacity: 0;
+}
+
+/* Medium stars */
+.stars2 {
+    background-image:
+        radial-gradient(3px 3px at 15% 85%, rgba(200, 200, 255, 1), transparent),
+        radial-gradient(3px 3px at 45% 25%, rgba(200, 200, 255, 1), transparent),
+        radial-gradient(3px 3px at 85% 55%, rgba(200, 200, 255, 1), transparent),
+        radial-gradient(2px 2px at 5% 5%, rgba(255, 200, 200, 1), transparent),
+        radial-gradient(2px 2px at 50% 50%, rgba(200, 255, 200, 1), transparent);
+    background-size: 500px 500px;
+    animation: warpSpeed 3s linear infinite 1s;
+    /* Delay for layering */
+    opacity: 0;
+}
+
+/* Large bright stars/streaks */
+.stars3 {
+    background-image:
+        radial-gradient(4px 4px at 25% 25%, #fff, transparent),
+        radial-gradient(4px 4px at 75% 75%, #fff, transparent),
+        radial-gradient(3px 3px at 10% 90%, #aaf, transparent),
+        radial-gradient(3px 3px at 90% 10%, #faa, transparent);
+    background-size: 600px 600px;
+    animation: warpSpeed 3s linear infinite 2s;
+    opacity: 0;
+}
+
+@keyframes warpSpeed {
+    0% {
+        transform: translate(-50%, -50%) scale(0.1) rotate(0deg);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(2) rotate(45deg);
+        opacity: 0;
+    }
+}
+
+@keyframes twinkle {
+
+    /* Deprecated for this mode */
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
 
@@ -316,17 +415,84 @@ body.break-mode .progress-ring {
     /* Slight visual indicator for locked state */
 }
 
-/* Hide input arrows */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+/* Tablet Responsive */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .container {
+        padding: 2.5rem;
+        max-width: 420px;
+    }
+
+    .time-text {
+        font-size: 3.5rem;
+    }
+
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    .laps-display {
+        gap: 1.5rem;
+    }
+
+    .control-btn.primary {
+        padding: 0.75rem 2.2rem;
+    }
 }
 
+/* Tablet and Small Desktop */
+@media (max-width: 768px) {
+    .container {
+        padding: 2rem;
+        max-width: 400px;
+        gap: 1.5rem;
+    }
+
+    .time-text {
+        font-size: 3.2rem;
+    }
+
+    header h1 {
+        font-size: 1.3rem;
+    }
+
+    .quote-display {
+        font-size: 0.85rem;
+        padding: 0 0.5rem;
+        min-height: 2.5em;
+    }
+
+    .laps-display {
+        gap: 1.2rem;
+        padding: 0.4rem;
+    }
+
+    .lap-count {
+        font-size: 1.1rem;
+    }
+
+    .settings {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .setting-group {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .setting-group input {
+        width: 70px;
+    }
+}
+
+/* Mobile Responsive */
 @media (max-width: 480px) {
     .container {
         padding: 1.5rem;
         width: 95%;
+        gap: 1.2rem;
     }
 
     .time-text {
@@ -337,7 +503,110 @@ input::-webkit-inner-spin-button {
         font-size: 1.2rem;
     }
 
+    .quote-display {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+        min-height: 2em;
+    }
+
+    .laps-display {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .lap-label {
+        font-size: 0.65rem;
+    }
+
+    .lap-count {
+        font-size: 1rem;
+    }
+
+    .mode-toggles {
+        gap: 0.5rem;
+    }
+
+    .mode-btn {
+        padding: 0.4rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .timer-display {
+        max-width: 260px;
+    }
+
+    .controls {
+        gap: 1rem;
+    }
+
     .control-btn.primary {
-        padding: 0.8rem 2rem;
+        padding: 0.75rem 1.8rem;
+        font-size: 1rem;
+    }
+
+    .control-btn.secondary {
+        padding: 0.7rem;
+        font-size: 1.3rem;
+    }
+
+    .settings {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: center;
+    }
+
+    .setting-group {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .setting-group label {
+        font-size: 0.75rem;
+    }
+
+    .setting-group input {
+        width: 65px;
+        padding: 0.4rem;
+    }
+}
+
+/* Extra Small Devices */
+@media (max-width: 360px) {
+    .container {
+        padding: 1rem;
+        width: 98%;
+    }
+
+    .time-text {
+        font-size: 2.5rem;
+    }
+
+    .timer-display {
+        max-width: 220px;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+    }
+
+    .quote-display {
+        font-size: 0.75rem;
+        padding: 0;
+    }
+
+    .control-btn.primary {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .control-btn.secondary {
+        padding: 0.6rem;
+        font-size: 1.2rem;
+    }
+
+    .setting-group input {
+        width: 55px;
+        font-size: 0.9rem;
     }
 }
