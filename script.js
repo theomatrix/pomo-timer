@@ -4,7 +4,7 @@ class PomodoroTimer {
         this.totalTime = 25 * 60;
         this.timerId = null;
         this.isRunning = false;
-        this.mode = 'focus'; // 'focus' or 'break'
+        this.mode = 'focus'; 
         this.focusLaps = 0;
         this.breakLaps = 0;
 
@@ -19,7 +19,7 @@ class PomodoroTimer {
             "Don't count the days, make the days count."
         ];
 
-        // DOM Elements
+        
         this.timeDisplay = document.getElementById('time-display');
         this.startPauseBtn = document.getElementById('start-pause');
         this.resetBtn = document.getElementById('reset');
@@ -33,7 +33,6 @@ class PomodoroTimer {
         this.focusLapsDisplay = document.getElementById('focus-laps');
         this.breakLapsDisplay = document.getElementById('break-laps');
 
-        // Ring Circumference for animation
         this.circumference = 2 * Math.PI * 140; // r=140
         this.progressRing.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
 
@@ -63,11 +62,7 @@ class PomodoroTimer {
 
         this.isRunning = true;
         this.startPauseBtn.innerHTML = '<span class="icon">⏸</span> Pause';
-        this.lockInputs(true); // Lock inputs when running focus or break, user wanted modifiable only when not running or mostly focus? 
-        // Requirement: "once focused session started user should not be allowed to modify it in between"
-        // Interpreting this as: Lock inputs if IsRunning=true AND Mode=Focus. Or just Lock always when running to be safe/consistent?
-        // Let's lock always when running for better UX consistency, or specifically for Focus as requested.
-        // Let's lock always when running.
+        this.lockInputs(true); 
 
         if (this.mode === 'focus') {
             this.lockInputs(true);
@@ -89,11 +84,6 @@ class PomodoroTimer {
         clearInterval(this.timerId);
         this.timerId = null;
         this.startPauseBtn.innerHTML = '<span class="icon">▶</span> Start';
-        // We do NOT unlock inputs here to prevent cheating/modification mid-session? 
-        // Request said: "once focused session started user should not be allowed to modify it in between except the modification thing add a skip button"
-        // This implies inputs stay locked even if paused, until Reset? or until finished?
-        // Let's keep them locked if paused. Only Reset unlocks.
-    }
 
     resetTimer() {
         this.pauseTimer();
@@ -112,9 +102,6 @@ class PomodoroTimer {
     }
 
     switchMode(newMode) {
-        // Allow switching modes manually? 
-        // If we are locked, we might prevent this? The UI shows buttons. 
-        // Let's allow manual switch but it resets the timer.
         this.mode = newMode;
         document.body.classList.toggle('break-mode', newMode === 'break');
 
@@ -143,9 +130,6 @@ class PomodoroTimer {
     lockInputs(locked) {
         this.focusInput.disabled = locked;
         this.breakInput.disabled = locked;
-        // Optionally disable mode buttons too if strict
-        // this.focusBtn.disabled = locked;
-        // this.breakBtn.disabled = locked;
     }
 
     updateDisplay() {
@@ -188,20 +172,16 @@ class PomodoroTimer {
             this.startTimer();
 
         } else {
-            // Break finished
+            
             this.breakLaps++;
             this.breakLapsDisplay.textContent = this.breakLaps;
 
             alert('Break is over! Back to work.');
-            // Do NOT auto-switch to focus or auto-start focus? 
-            // Usually user decides when to start focus.
             this.switchMode('focus');
         }
     }
 
     updateQuote() {
-        // Random quote or sequential? Request: "quote should be changing on the basis of laps i've completed"
-        // Let's cycle through them based on total laps
         const totalLaps = this.focusLaps + this.breakLaps;
         const quoteIndex = totalLaps % this.quotes.length;
         this.quoteDisplay.textContent = `"${this.quotes[quoteIndex]}"`;
