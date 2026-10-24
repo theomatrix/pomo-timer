@@ -126,8 +126,3 @@ Only external resources:
 | Inputs disabled      | The script may lock inputs during an active session. |
 
 ---
-
-## 🤝 Contributors
-
-Designed & developed by **theomatrix**, deployed on Render.
-
