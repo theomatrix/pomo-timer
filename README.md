@@ -1,4 +1,3 @@
-
 # 🌱 **Focus Timer — A Modern Pomodoro Productivity App**
 
 A clean, elegant, and fully functional **Pomodoro timer** designed with glassmorphism, animated backgrounds, smooth transitions, and customizable focus/break sessions.
